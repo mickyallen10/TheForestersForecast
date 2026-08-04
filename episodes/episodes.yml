@@ -1,0 +1,258 @@
+# Episode data for The Forester's Forecast, sourced from the YouTube channel
+# (youtube_id is the video ID; part after "v=" or after youtu.be/).
+# `series` groups episodes into one of three shows:
+#   - "The Forester's Forecast"
+#   - "Grad Student Spotlight"
+#   - "A Band of Biometricians"
+# `order` is the position within its series (used for sorting on the Episodes page).
+# `spotify_id` is the Spotify episode ID (from open.spotify.com/episode/<id>), when known.
+# To refresh this list from YouTube later, re-run the fetch script using the
+# YouTube Data API v3 (channel handle: @TheForestersForecast-wb3jl).
+- title: 'Episode 1: Dr. John Paul McTague'
+  series: The Forester's Forecast
+  order: 1
+  date: '2023-05-12'
+  youtube_id: 8S-N4KgcSzg
+  spotify_id: 11hD1uY3lfSEeBXtQmlhnu
+  description: Dr. John Paul McTague is a consulting biometrician who has led a fascinating
+    career spanning tenure in academia, leading research in industry and now forest
+    consulting. Dr. McTague provides insight into his life growing up in the USA and
+    Brazil, entering into a career of forestry, and a history of service to the profession.
+- title: 'Episode 2: Dr. Mike Strub'
+  series: The Forester's Forecast
+  order: 2
+  date: '2023-06-09'
+  youtube_id: vSIqZ5E8O3k
+  spotify_id: 5EpeEjtIOeUnNnlOS5rKOn
+  description: Dr. Mike Strub, Virginia Tech grad and retired Weyerhaeuser biometrician
+    spills the secrets to a successful and happy career in forestry.
+- title: 'Episode 3: Dr. Tom Lynch'
+  series: The Forester's Forecast
+  order: 3
+  date: '2023-09-14'
+  youtube_id: 7biG_GNHkLA
+  spotify_id: 0anhmmYKkIF51hp0ziGpgp
+  description: Dr. Tom Lynch is a retired professor of Forest Biometrics at Oklahoma
+    State University. We discuss his time at school in Virginia Tech and Purdue, his
+    lengthy career at Oklahoma State, and some of his recent publications in plantation
+    row sampling and big BAF sampling.
+- title: 'Episode 4: Dr. Sheng-I Yang'
+  series: The Forester's Forecast
+  order: 4
+  date: '2023-09-08'
+  youtube_id: 27_Wn8O_S3Y
+  spotify_id: 3hyxVOAoBVQRPLbbQK6ayd
+  description: Dr. Sheng-I Yang is an Associate Professor of Forest Biometrics at
+    the University of Tennessee and the host of the 2023 joint SOMENS and NEMO conference.
+- title: 'Episode 5: Dr. Steve Knowe'
+  series: The Forester's Forecast
+  order: 5
+  date: '2023-10-06'
+  youtube_id: skPqmxBcTpQ
+  spotify_id: 4L3eAolgVxA7hcQDwscDlE
+  description: Steve Knowe is consulting forest biometrician who has successfully
+    ran his own consulting firm, Steve Knowe Biostatistics Consulting LLC, for more
+    than a decade. Check him out at SteveKnowe.com and LinkedIn.
+- title: 'Episode 6: Dr. Laura Ramirez'
+  series: The Forester's Forecast
+  order: 6
+  date: '2023-12-10'
+  youtube_id: -__phm6FkgY
+  spotify_id: 6eQUNHJhDZ5GRpJmKdMeYn
+  description: Dr. Laura Ramirez is a forest biometrician with Weyerhaeuser and graduate
+    of the University of Georgia and the National University of Colombia.
+- title: 'Episode 7: Dr. Trevor Walker'
+  series: The Forester's Forecast
+  order: 7
+  date: '2024-01-04'
+  youtube_id: 3-zKLPLCpGI
+  spotify_id: 14VqUrFQTBB61jSJxxwEdM
+  description: Dr. Trevor Walker is an assistant professor of Forest Genetics at NC
+    State University and Co-Director of the Tree Improvement Program at NC State.
+    Dr. Walker grew up in the Piney Woods of East Texas where he obtained a MS in
+    forest biometrics from Stephen F. Austin State University before eventually making
+    his way to NC State for a Ph.D. in Forest Genetics.
+- title: 'Episode 8: Dr. Quang Cao'
+  series: The Forester's Forecast
+  order: 8
+  date: '2024-03-23'
+  youtube_id: pLK265ndd98
+  spotify_id: 3dEP4KQsFOxmhWp28L7J5A
+  description: Dr. Quang Cao is a Professor of Forestry at Louisiana State University.
+    After immigrating to the US from Vietnam, he studied Forest biometrics at Virginia
+    Tech before landing his role at LSU. We discussed his time in graduate school,
+    including some shared experiences, and some of his major works including Stand
+    Table/Tree List/Diameter Distribution projection.
+- title: 'Episode 9: Ronald Taylor'
+  series: The Forester's Forecast
+  order: 9
+  date: '2024-04-10'
+  youtube_id: waSyW-KciF0
+  spotify_id: 7fejA8FQywD9Ub8LkDEOgt
+  description: Ronald Taylor is a biometrician with a background in Remote Sensing/GIS,
+    Statistical Modeling, and Optimization with career experience spanning Canada,
+    the U.S., New Zealand, and Australia. Currently, he is an instructor at the Centre
+    of Geographic Science (COGS) in Nova Scotia, Canada and is promoting a new graduate
+    certificate program in Forest Geomatics and Biometrics technology at the Centre
+    of Forest Innovation. Be sure to check out the program at www.nscc.ca.
+- title: 'Episode 10: Dr. Brian Roth'
+  series: The Forester's Forecast
+  order: 10
+  date: '2024-05-28'
+  youtube_id: faAmnTcYDcM
+  spotify_id: 2SRMaBtDlzgAPUfJADpoEm
+  description: Dr. Brian Roth is an international forestry consultant and founder
+    of Forest Release, a non-profit humanitarian organization with a focus on promoting
+    safety and sustainability in former conflict areas. Currently working in the Ukraine,
+    Forest Release is collecting donations for fire-safety and fire-suppression gear
+    and providing safety training for Ukrainian foresters. For those wishing to help,
+    donations can be made through ForestRelease.org or by contacting Dr. Roth directly
+    at Brian@rothforestry.com.
+- title: 'Episode 11: Dr. Mostarin Ara'
+  series: The Forester's Forecast
+  order: 11
+  date: '2024-06-07'
+  youtube_id: FSD-39AJsB0
+  spotify_id: 4wJQrxuIeO9jXlK67PMK61
+  description: Dr. Mostarin Ara is a Forest Silviculturist and all around adventurer.
+    Having worked and studied all over the world, Dr. Ara is well versed in a wide
+    range of ecosystems and silvicultural regimes. We discussed her time at university
+    in Bangladesh, Grad school in Sweden and the Netherlands, post-doc in Canada,
+    and finally her current position in New Zealand.
+- title: 'Episode 12: Greg Johnson'
+  series: The Forester's Forecast
+  order: 12
+  date: '2024-06-21'
+  youtube_id: oNdyroVt7ho
+  spotify_id: 1VMo4NEMUHKftmMudnLGOT
+  description: Greg Johnson retired from Weyerhaeuser as the Director of Advanced
+    Forestry Systems and currently runs his own consulting business, Greg Johnson
+    Biometrics LLC. A native of the east coast, Greg graduated with degrees from Oregon
+    State University. While his accolades are numerous, Greg built one of the largest
+    forest systems teams in the world and is one of the most influential people in
+    the forest Biometrics community. In this episode, Greg shares his ‘origin story’
+    and his forecast on the future of forest inventory and modeling.
+- title: 'Episode 13: Dr. Aaron Weiskittel'
+  series: The Forester's Forecast
+  order: 13
+  date: '2024-09-11'
+  youtube_id: e77ho_9rhuE
+  spotify_id: 4l12iOfIbn6EAxoHfaDQRo
+  description: Dr. Aaron Weiskittel is the Irving chair of Forest Ecosystem Management
+    and professor of forest biometrics and modeling at the University of Maine, Director
+    of the Center for Advanced Forestry Systems (CAFS) and for the Center for Research
+    on Sustainable Forests, and Co-Executive Director of the Northeastern States Research
+    Cooperative. Dr. Weiskittel is also the host of the Joint NEMO/SOMENS 2024 annual
+    meeting being held in Stowe, VT. In this episode we discuss the importance of
+    networking, Carbon Markets, and the future of Growth and Yield Cooperatives.
+- title: 'Episode 14: Dr. Dave Hyink'
+  series: The Forester's Forecast
+  order: 14
+  date: '2025-03-20'
+  youtube_id: LQb0GsSVkw8
+  spotify_id: 4lsorrED8U2Nhzqza8KDRe
+  description: Dr. Dave Hyink is a retired forest biometrician, Eagle Scout, and professional
+    grandpa. In this episode, Dr. Hyink recounts the tale of his unexpected beginnings
+    in forestry and path to becoming one of the greatest biometricians of a generation.
+    We discuss some of his important contributions to forest modeling, such as the
+    parameter recover approach to diameter distribution estimation, and some of the
+    most surprising things he saw over his career (with slides).
+- title: 'Episode 15: Dr. Kim Iles'
+  series: The Forester's Forecast
+  order: 15
+  date: '2025-04-26'
+  youtube_id: 5vwlW9fIUS0
+  spotify_id: 5kNgXBs7NqICBVUx8qAIKN
+  description: Dr. Kim Iles is a Forest Biometrics consultant, author, historian,
+    professor, and all around sampling enthusiast.  He received degrees in Forest
+    Management and Forest Biometrics from Oregon State University and  a Ph.D. in
+    Forest Biometrics from the University of British Columbia.  Dr. Iles is also a
+    fellow collector of people and stories which he documented in his book “Celebrating
+    some people and lessons, from a time in Forest Inventory” which can be accessed
+    online at http://www.sitca.ca/documents/Kim_Iles_People_Book.pdf
+- title: 'Episode 16: Dr. Dean Coble'
+  series: The Forester's Forecast
+  order: 16
+  date: '2025-06-04'
+  youtube_id: tDFgpVm_cgc
+  spotify_id: 5hkULfrrh6d6O0XSzp2tu3
+  description: Dr. Dean Coble is a Portfolio Analyst/Biometrician for BTG Pactual.
+    Prior to his role at BTG, Dr. Coble was a professor of Forest Biometrics at West
+    Virginia University and Stephen F. Austin State University. Additionally, Dr.
+    Coble served as a research analyst in Alzheimer's research at Washington University
+    in St. Louis Missouri.
+- title: 'Episode 17: Dr. Phil West'
+  series: The Forester's Forecast
+  order: 17
+  date: '2025-08-13'
+  youtube_id: HngdzUeDB6A
+  spotify_id: 0J3BBbHEYtDR7meHL49WJh
+  description: Dr. Phil West is a retired forest biometrician from South Australia.
+    One of Australia’s most experienced forest growth and yield modelers, Dr. West
+    has worked across a wide range of forest types, from plantations to tropical forests,
+    and has authored numerous publications as well as two forestry textbooks. Having
+    worked as a researcher, a professor, and a consultant, Dr. West has an extensive
+    career in the development and use of forest growth and yield models. He now spends
+    his time in retirement researching those topics which he finds both interesting
+    and challenging.
+- title: 'Episode 18: Dr. Hector Restrepo'
+  series: The Forester's Forecast
+  order: 18
+  date: '2025-12-05'
+  youtube_id: UEYZSQGGntw
+  spotify_id: 0oHGNIombqOUzl2zJCW0fO
+  description: In this episode, I had the privilege of speaking with Dr. Hector Restrepo,
+    Forest Biometrician at NCASI, whose career blends technical expertise, global
+    perspective, and a deep commitment to innovation.
+- title: 'Episode 19: Clara Clark'
+  series: The Forester's Forecast
+  order: 19
+  date: '2026-03-06'
+  youtube_id: H3eoAzxj8BY
+  spotify_id: 7k5JjzY1GcSwkgyL0AiAXW
+  description: Clara Clark is a Senior Biometrician at American Forest Management,
+    and graduate of Virginia Tech. Clara shares her real-world experience in growth
+    and yield modeling, and client-facing strategies for translating complex quantitative
+    results into actionable forest management advice. Further, Clara delves into her
+    origin story, from transitioning her educational focus from a career in teaching
+    to eventually forest biometrics, to her current position as a biometrician at
+    AFM, one of the largest consulting companies in North America.
+- title: 'Grad Student Spotlight - Episode 1: Carl Vigren'
+  series: Grad Student Spotlight
+  order: 1
+  date: '2023-07-27'
+  youtube_id: jDtDgf3l8a4
+  spotify_id: 7kUsvFUCxa86yXhY1F0cDr
+  description: Carl Vigren is a PhD student at the Swedish University of Agriculture
+    Sciences in the Department of Forest Resource Management. He is an expert in forest
+    modeling and creator of the forester repository on GitHub (https://github.com/Silviculturalist/forester),
+    a collection of forestry functions and models.
+- title: 'Grad Student Spotlight - Episode 2: Suveksha Jha'
+  series: Grad Student Spotlight
+  order: 2
+  date: '2023-09-29'
+  youtube_id: X0qZKZyL1jQ
+  spotify_id: 43R58YZqrSLWqq5y8UFVQK
+  description: Suveksha Jha is a masters student at the University of Georgia in the
+    Warnell School of Forestry and Natural Resources. Her masters work is centered
+    on the integration of LiDAR data and Growth and Yield models. Be sure to check
+    out her presentation at the upcoming SOMENS and NEMO meeting in Knoxville, TN.
+- title: 'Grad Student Spotlight - Episode 3: Olakunle Joshua'
+  series: Grad Student Spotlight
+  order: 3
+  date: '2025-01-30'
+  youtube_id: NEVpBeyH1_Y
+  spotify_id: 1YqHi2O458s0BEAozzAG5c
+  description: Joshua is a PhD student in the SUNY College of Environmental Science
+    and Forestry and founder of The Achiever's Gathering, Nigeria (TAGNG).
+- title: 'A Band of Biometricians #1'
+  series: A Band of Biometricians
+  order: 1
+  date: '2025-09-15'
+  youtube_id: lw30fS9nMBk
+  spotify_id: 05hKTZuO325SY6SiY2XJG5
+  description: Welcome to A Band of Biometricians, a professional forestry podcast
+    where we explore the latest topics in forest biometrics, inventory, and growth
+    & yield. In this first episode, I am joined by Dr. John Paul McTague and Dr. Corey
+    Green to discuss the 2025 joint NEMO and SOMENS conference and to dive deep into
+    the topic of Small Area Estimation

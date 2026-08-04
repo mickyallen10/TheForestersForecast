@@ -1,0 +1,23 @@
+{
+  "permission": {
+    "webfetch": {
+      "https://www.youtube.com/*": "allow",
+      "https://open.spotify.com/*": "allow"
+    },
+    "executeCode": {
+      "*": "allow"
+    },
+    "bash": {
+      "quarto render *": "allow",
+      "tail *": "allow",
+      "powershell *": "allow"
+    },
+    "edit": {
+      "*.qmd": "allow",
+      "*.yml": "allow",
+      "*.css": "allow",
+      "*.R": "allow",
+      "*": "allow"
+    }
+  }
+}

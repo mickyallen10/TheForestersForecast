@@ -1,0 +1,15 @@
+{
+  "hash": "5f57cb95c92e22c8218e24c425ef5ca3",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"The Forester's Forecast\"\n---\n\n**The Forester's Forecast** is an interview series dedicated to the people behind forest biometrics and forest analytics — the scientists, researchers, and analysts whose work quietly shapes how we understand, measure, and manage forests. The show features three series: the flagship interview series, exploring the careers and life stories of professionals; **The Grad Student Spotlight**, which highlights graduate students, showcasing their research and career goals; and **A Band of Biometricians**, a roundtable series where multiple proffesionals are gathered discuss current hot topics in the field.\n\nYour host, **Micky G. Allen II, Ph.D., CF**, is a consulting forest biometrician and senior forest analyst at Larson & McGowin, LLC, working in forest inventory and harvest planning. Micky created The Forester's Forecast to document the careers and stories of the people who form the backbone of forest biometrics.\n\n\n::: {.cell}\n\n:::\n\n\n## Latest Episodes\n\n### The Forester's Forecast\n\n#### Episode 19: Clara Clark\n\n*March 06, 2026*\n\n<div class=\"ratio ratio-16x9 mb-3\">\n<iframe src=\"https://www.youtube.com/embed/H3eoAzxj8BY\" title=\"Episode 19: Clara Clark\" allowfullscreen></iframe>\n</div>\n\nClara Clark is a Senior Biometrician at American Forest Management, and graduate of Virginia Tech. Clara shares her real-world experience in growth and yield modeling, and client-facing strategies for translating complex quantitative results into actionable forest management advice. Further, Clara delves into her origin story, from transitioning her educational focus from a career in teaching to eventually forest biometrics, to her current position as a biometrician at AFM, one of the largest consulting companies in North America. \n\n### Grad Student Spotlight\n\n#### Grad Student Spotlight - Episode 3: Olakunle Joshua\n\n*January 30, 2025*\n\n<div class=\"ratio ratio-16x9 mb-3\">\n<iframe src=\"https://www.youtube.com/embed/NEVpBeyH1_Y\" title=\"Grad Student Spotlight - Episode 3: Olakunle Joshua\" allowfullscreen></iframe>\n</div>\n\nJoshua is a PhD student in the SUNY College of Environmental Science and Forestry and founder of The Achiever's Gathering, Nigeria (TAGNG). \n\n### A Band of Biometricians\n\n#### A Band of Biometricians #1\n\n*September 15, 2025*\n\n<div class=\"ratio ratio-16x9 mb-3\">\n<iframe src=\"https://www.youtube.com/embed/lw30fS9nMBk\" title=\"A Band of Biometricians #1\" allowfullscreen></iframe>\n</div>\n\nWelcome to A Band of Biometricians, a professional forestry podcast where we explore the latest topics in forest biometrics, inventory, and growth & yield. In this first episode, I am joined by Dr. John Paul McTague and Dr. Corey Green to discuss the 2025 joint NEMO and SOMENS conference and to dive deep into the topic of Small Area Estimation \n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

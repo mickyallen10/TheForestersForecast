@@ -1,0 +1,16 @@
+meta:
+  name: The Forester's Forecast
+
+color:
+  palette:
+    bark-charcoal: "#2B2A26"
+    forest-olive: "#52503B"
+    trail-bark: "#986A32"
+    sunset-gold: "#E8B275"
+    canopy-mist: "#FBFAF9"
+    deep-root: "#050404"
+  foreground: bark-charcoal
+  background: canopy-mist
+  primary: trail-bark
+  secondary: forest-olive
+  link: sunset-gold

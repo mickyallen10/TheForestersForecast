@@ -1,0 +1,31 @@
+/* css styles */
+
+/* Navbar logo: 5x the default size (default max-height is 24px) */
+.navbar-brand img {
+  max-height: 120px;
+}
+
+/* Give the navbar enough room for the larger logo */
+.navbar {
+  min-height: 130px;
+}
+
+/* Episode thumbnails: YouTube's hqdefault.jpg pads 16:9 video with black
+   letterbox bars to fill a 4:3 frame. Crop those bars by constraining the
+   link to a true 16:9 box, centering the image, and hiding the overflow. */
+.episode-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.episode-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

@@ -1,0 +1,34 @@
+---
+title: "The Forester's Forecast"
+---
+
+**The Forester's Forecast** is an interview series dedicated to the people behind forest biometrics and forest analytics — the scientists, researchers, and analysts whose work quietly shapes how we understand, measure, and manage forests. The show features three series: the flagship interview series, exploring the careers and life stories of professionals; **The Grad Student Spotlight**, which highlights graduate students, showcasing their research and career goals; and **A Band of Biometricians**, a roundtable series where multiple proffesionals are gathered discuss current hot topics in the field.
+
+Your host, **Micky G. Allen II, Ph.D., CF**, is a consulting forest biometrician and senior forest analyst at Larson & McGowin, LLC, working in forest inventory and harvest planning. Micky created The Forester's Forecast to document the careers and stories of the people who form the backbone of forest biometrics.
+
+```{r}
+#| echo: false
+#| message: false
+source("episodes/render_episodes.R")
+episodes <- load_episodes()
+```
+
+## Latest Episodes
+
+```{r}
+#| echo: false
+#| results: asis
+render_latest_series(episodes, "The Forester's Forecast")
+```
+
+```{r}
+#| echo: false
+#| results: asis
+render_latest_series(episodes, "Grad Student Spotlight")
+```
+
+```{r}
+#| echo: false
+#| results: asis
+render_latest_series(episodes, "A Band of Biometricians")
+```

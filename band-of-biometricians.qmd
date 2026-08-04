@@ -1,0 +1,18 @@
+---
+title: "A Band of Biometricians"
+---
+
+```{r}
+#| echo: false
+#| message: false
+source("episodes/render_episodes.R")
+episodes <- load_episodes()
+```
+
+```{r}
+#| echo: false
+#| results: asis
+render_series(episodes, "A Band of Biometricians")
+```
+
+All episodes are also available on our [YouTube channel](https://www.youtube.com/@TheForestersForecast-wb3jl) and [Spotify](https://open.spotify.com/show/4fzgYVHRlYACdPJiM93L3C).
