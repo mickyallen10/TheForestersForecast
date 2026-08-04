@@ -25,31 +25,42 @@ while IFS= read -r f; do
   fi
 done <<< "$staged_files"
 
-# --- 2. Scan staged content (added lines only) for secret-shaped strings --
-# Patterns cover: Google API keys, AWS access keys, generic "Bearer" tokens,
-# GitHub tokens, Slack tokens, private key blocks, and generic
-# key/secret/token = "..." assignments with long values.
-patterns=(
-  'AIza[0-9A-Za-z_-]{35}'                       # Google API key
-  'AKIA[0-9A-Z]{16}'                             # AWS access key ID
-  'ghp_[0-9A-Za-z]{36}'                          # GitHub personal access token
-  'gho_[0-9A-Za-z]{36}'                          # GitHub OAuth token
-  'xox[baprs]-[0-9A-Za-z-]{10,}'                 # Slack token
-  '-----BEGIN [A-Z ]*PRIVATE KEY-----'           # Private key block
-  '(secret|api[_-]?key|token|password|passwd)[[:space:]]*(<-|[:=])[[:space:]]*["'\''][A-Za-z0-9/+=_-]{16,}["'\'']'
-)
-
-diff_content=$(git diff --cached -U0 -- . ':!*.lock' ':!*.min.js' ':!*.min.css' 2>/dev/null || true)
-added_lines=$(echo "$diff_content" | grep -E '^\+' | grep -vE '^\+\+\+' || true)
-
-for pat in "${patterns[@]}"; do
-  matches=$(echo "$added_lines" | grep -EIn -- "$pat" || true)
-  if [ -n "$matches" ]; then
-    echo -e "${YELLOW}✖ Possible secret matching pattern: $pat${NC}"
-    echo "$matches" | sed 's/^/    /'
+# --- 2. Scan staged changes for secrets -----------------------------------
+# Prefer gitleaks (much broader rule set + entropy detection) if installed;
+# fall back to a small built-in regex scan otherwise so the hook still does
+# *something* useful on a machine without gitleaks.
+if command -v gitleaks >/dev/null 2>&1; then
+  if ! gitleaks protect --staged --redact -v; then
     found=1
   fi
-done
+else
+  echo -e "${YELLOW}(gitleaks not found on PATH -- falling back to basic regex scan;${NC}"
+  echo -e "${YELLOW} run 'winget install Gitleaks.Gitleaks' for stronger coverage)${NC}"
+
+  # Patterns cover: Google API keys, AWS access keys, GitHub/Slack tokens,
+  # private key blocks, and generic key/secret/token = "..." assignments.
+  patterns=(
+    'AIza[0-9A-Za-z_-]{35}'                       # Google API key
+    'AKIA[0-9A-Z]{16}'                             # AWS access key ID
+    'ghp_[0-9A-Za-z]{36}'                          # GitHub personal access token
+    'gho_[0-9A-Za-z]{36}'                          # GitHub OAuth token
+    'xox[baprs]-[0-9A-Za-z-]{10,}'                 # Slack token
+    '-----BEGIN [A-Z ]*PRIVATE KEY-----'           # Private key block
+    '(secret|api[_-]?key|token|password|passwd)[[:space:]]*(<-|[:=])[[:space:]]*["'\''][A-Za-z0-9/+=_-]{16,}["'\'']'
+  )
+
+  diff_content=$(git diff --cached -U0 -- . ':!*.lock' ':!*.min.js' ':!*.min.css' 2>/dev/null || true)
+  added_lines=$(echo "$diff_content" | grep -E '^\+' | grep -vE '^\+\+\+' || true)
+
+  for pat in "${patterns[@]}"; do
+    matches=$(echo "$added_lines" | grep -EIn -- "$pat" || true)
+    if [ -n "$matches" ]; then
+      echo -e "${YELLOW}✖ Possible secret matching pattern: $pat${NC}"
+      echo "$matches" | sed 's/^/    /'
+      found=1
+    fi
+  done
+fi
 
 if [ "$found" -ne 0 ]; then
   echo ""
