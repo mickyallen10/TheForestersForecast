@@ -72,6 +72,57 @@ embeds (one per series). Styling against `_brand.yml`/`styles.css` has not
 yet been visually reviewed in a browser — that's a reasonable next step
 after restarting RStudio (e.g. via `quarto preview`).
 
+## Secret scanning / pre-commit hook
+
+A leaked Google API key was previously committed in `.Rhistory` and pushed
+to GitHub, triggering GitHub/Google secret-scanning warnings. It was
+removed by amending the (single) commit on `main` that introduced it and
+force-pushing; the key itself should have also been rotated in Google
+Cloud Console (revoke/regenerate is the real fix — history rewriting alone
+doesn't undo prior exposure).
+
+To prevent recurrence, a pre-commit hook lives at **`.githooks/pre-commit`**
+(tracked in the repo) that:
+- Blocks staging/committing sensitive filenames (`.Rhistory`, `.Renviron`,
+  `.env`, service-account JSON files) even if `git add -f` is used.
+- Scans staged changes for secrets using **gitleaks** (installed via
+  `winget install Gitleaks.Gitleaks`, currently v8.30.1) if it's found on
+  `PATH` -- `gitleaks protect --staged --redact -v` -- which has a much
+  broader/maintained rule set plus entropy-based detection than any hand-
+  rolled regex could.
+- Falls back to a small built-in regex scan (Google API keys, AWS access
+  key IDs, GitHub/Slack tokens, private key blocks, generic
+  `key/secret/token <- "..."` or `= "..."` assignments) if gitleaks isn't
+  installed on a given machine, so the hook still does *something* useful
+  everywhere.
+- Exits non-zero and prints the offending pattern/line if anything matches,
+  blocking the commit (bypassable per-commit via `git commit --no-verify`
+  for confirmed false positives).
+
+**Important:** `core.hooksPath` is a *local* git config, not something that
+travels with the repo automatically. Every fresh clone (or this one, if
+`core.hooksPath` ever gets reset) needs to run once:
+
+```
+git config core.hooksPath .githooks
+```
+
+`.gitignore` was also updated to cover `.Renviron`, `.env`, and `.env.*` in
+addition to the pre-existing `.Rhistory` entry, as defense in depth.
+
+**Note on `core.autocrlf`:** this repo has `core.autocrlf=true`, so files
+on disk (including `.githooks/pre-commit` and `AGENTS.md` itself) have CRLF
+line endings even though they're authored/stored as LF in git. Tools doing
+exact-string-match edits against these files can fail confusingly with
+"string not found" against seemingly-matching content -- rewriting the
+whole file, or editing via a CRLF-aware method (e.g. `sed`), sidesteps it.
+
+**Note on winget/PATH:** installing a tool via `winget install` updates the
+user-level `PATH` in the registry immediately, but any *already-running*
+shell/terminal process won't see the update until it's restarted -- this
+can make a freshly-installed CLI tool appear as "not found" even though
+the install succeeded and works fine in a new terminal/session.
+
 ## Status
 
 Home page embed feature is implemented and rendering cleanly. Update this
