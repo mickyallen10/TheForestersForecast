@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Pre-commit hook: block commits that contain likely secrets/API keys,
+# or that try to (re-)stage known-sensitive files like .Rhistory/.Renviron.
+#
+# Installed via: git config core.hooksPath .githooks
+# (run once per clone -- see README note in AGENTS.md)
+
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+found=0
+
+# --- 1. Block staged files that should never be committed -----------------
+blocked_files='(^|/)(\.Rhistory|\.Renviron|\.env|\.env\..*|.*_service_account.*\.json)$'
+staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  if echo "$f" | grep -qiE "$blocked_files"; then
+    echo -e "${RED}✖ Refusing to commit sensitive file: $f${NC}"
+    found=1
+  fi
+done <<< "$staged_files"
+
+# --- 2. Scan staged content (added lines only) for secret-shaped strings --
+# Patterns cover: Google API keys, AWS access keys, generic "Bearer" tokens,
+# GitHub tokens, Slack tokens, private key blocks, and generic
+# key/secret/token = "..." assignments with long values.
+patterns=(
+  'AIza[0-9A-Za-z_-]{35}'                       # Google API key
+  'AKIA[0-9A-Z]{16}'                             # AWS access key ID
+  'ghp_[0-9A-Za-z]{36}'                          # GitHub personal access token
+  'gho_[0-9A-Za-z]{36}'                          # GitHub OAuth token
+  'xox[baprs]-[0-9A-Za-z-]{10,}'                 # Slack token
+  '-----BEGIN [A-Z ]*PRIVATE KEY-----'           # Private key block
+  '(secret|api[_-]?key|token|password|passwd)[[:space:]]*(<-|[:=])[[:space:]]*["'\''][A-Za-z0-9/+=_-]{16,}["'\'']'
+)
+
+diff_content=$(git diff --cached -U0 -- . ':!*.lock' ':!*.min.js' ':!*.min.css' 2>/dev/null || true)
+added_lines=$(echo "$diff_content" | grep -E '^\+' | grep -vE '^\+\+\+' || true)
+
+for pat in "${patterns[@]}"; do
+  matches=$(echo "$added_lines" | grep -EIn -- "$pat" || true)
+  if [ -n "$matches" ]; then
+    echo -e "${YELLOW}✖ Possible secret matching pattern: $pat${NC}"
+    echo "$matches" | sed 's/^/    /'
+    found=1
+  fi
+done
+
+if [ "$found" -ne 0 ]; then
+  echo ""
+  echo -e "${RED}Commit blocked: possible secret(s) or sensitive file(s) staged.${NC}"
+  echo "If this is a false positive, either:"
+  echo "  - remove/redact the value and re-stage, or"
+  echo "  - bypass just this once with: git commit --no-verify"
+  exit 1
+fi
+
+exit 0

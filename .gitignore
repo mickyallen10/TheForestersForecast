@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.posit/assistant
+/.quarto/
+/_site/
+
+**/*.quarto_ipynb
+
+# Secrets - never commit these
+.Renviron
+.env
+.env.*
