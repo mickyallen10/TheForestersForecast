@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - CNAME
 
 website:
   title: "The Forester's Forecast"
@@ -26,4 +28,3 @@ format:
     toc: true
 
 editor: visual
-
