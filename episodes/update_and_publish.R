@@ -7,6 +7,9 @@
 #   3. Render the Quarto site (quarto render).
 #   4. Commit episodes.yml + the rendered _site/ + .quarto/_freeze changes,
 #      and push to origin/main.
+#   5. Publish the freshly-rendered site to the gh-pages branch (this is what
+#      actually serves the live site at theforestersforecast.com), via
+#      `quarto publish gh-pages`.
 #
 # Deliberately does NOT touch .Rhistory, .Renviron, .Rproj.user, .posit, or
 # .quarto/idx|xref|project-cache - those are local session/cache state
@@ -18,8 +21,9 @@
 #   update_and_publish()
 #
 # Options:
-#   update_and_publish(push = FALSE)          # commit locally only, don't push
-#   update_and_publish(commit_message = "...") # override the default message
+#   update_and_publish(push = FALSE)             # commit locally only, don't push/publish
+#   update_and_publish(commit_message = "...")   # override the default main-branch commit message
+#   update_and_publish(publish_gh_pages = FALSE) # push main but skip the gh-pages deploy
 
 run_git <- function(args, error_on_fail = TRUE) {
   result <- suppressWarnings(system2("git", args, stdout = TRUE, stderr = TRUE))
@@ -30,10 +34,10 @@ run_git <- function(args, error_on_fail = TRUE) {
   result
 }
 
-update_and_publish <- function(push = TRUE, commit_message = NULL) {
+update_and_publish <- function(push = TRUE, commit_message = NULL, publish_gh_pages = push) {
   source("episodes/fetch_episodes.R")
 
-  message("== Step 1/4: fetching episodes from YouTube ==")
+  message("== Step 1/5: fetching episodes from YouTube ==")
   new_titles <- fetch_and_merge_episodes()
 
   if (length(new_titles) > 0) {
@@ -50,7 +54,7 @@ update_and_publish <- function(push = TRUE, commit_message = NULL) {
     message("No new episodes found.")
   }
 
-  message("\n== Step 2/4: rendering site ==")
+  message("\n== Step 2/5: rendering site ==")
   render_out <- suppressWarnings(system2("quarto", "render", stdout = TRUE, stderr = TRUE))
   cat(render_out, sep = "\n")
   render_status <- attr(render_out, "status")
@@ -59,33 +63,53 @@ update_and_publish <- function(push = TRUE, commit_message = NULL) {
   }
 
   paths_to_stage <- c("episodes/episodes.yml", "_site", ".quarto/_freeze")
-  message("\n== Step 3/4: checking for changes to commit ==")
+  message("\n== Step 3/5: checking for changes to commit on main ==")
   changed <- run_git(c("status", "--porcelain", "--", paths_to_stage))
-  if (length(changed) == 0) {
-    message("Nothing to commit - episodes.yml and the rendered site are already up to date.")
-    return(invisible(NULL))
-  }
+  skip_main_commit <- length(changed) == 0
+  if (skip_main_commit) {
+    message("Nothing to commit on main - episodes.yml and the rendered site are already up to date.")
+  } else {
+    # -f: _site/ and .quarto/_freeze/ are (redundantly) listed in .gitignore
+    # even though they're deliberately tracked; without -f, recent git refuses
+    # to (re-)stage paths under an ignored directory and exits non-zero, even
+    # for files already tracked.
+    run_git(c("add", "-f", paths_to_stage))
 
-  # -f: _site/ and .quarto/_freeze/ are (redundantly) listed in .gitignore
-  # even though they're deliberately tracked; without -f, recent git refuses
-  # to (re-)stage paths under an ignored directory and exits non-zero, even
-  # for files already tracked.
-  run_git(c("add", "-f", paths_to_stage))
+    if (is.null(commit_message)) {
+      commit_message <- if (length(new_titles) > 0) {
+        sprintf("Add new episode(s): %s", paste(new_titles, collapse = "; "))
+      } else {
+        "Update rendered site"
+      }
+    }
+    message("Committing to main: ", commit_message)
+    run_git(c("commit", "-m", shQuote(commit_message)))
 
-  if (is.null(commit_message)) {
-    commit_message <- if (length(new_titles) > 0) {
-      sprintf("Add new episode(s): %s", paste(new_titles, collapse = "; "))
-    } else {
-      "Update rendered site"
+    message("\n== Step 4/5: ", if (push) "pushing main to origin ==" else "skipping push (push = FALSE) ==")
+    if (push) {
+      push_out <- run_git(c("push", "origin", "main"))
+      cat(push_out, sep = "\n")
     }
   }
-  message("Committing: ", commit_message)
-  run_git(c("commit", "-m", shQuote(commit_message)))
 
-  message("\n== Step 4/4: ", if (push) "pushing to origin/main ==" else "skipping push (push = FALSE) ==")
-  if (push) {
-    push_out <- run_git(c("push", "origin", "main"))
-    cat(push_out, sep = "\n")
+  message("\n== Step 5/5: ", if (publish_gh_pages) "publishing to gh-pages ==" else "skipping gh-pages publish ==")
+  if (publish_gh_pages) {
+    # Deliberately no --no-render: `quarto publish` does its own render pass
+    # that knows the destination site URL, which is what generates
+    # robots.txt/sitemap.xml. A plain `quarto render` (Step 2/5) does not
+    # produce those files, so skipping this render would silently drop them
+    # from the live site on every run.
+    publish_out <- suppressWarnings(
+      system2(
+        "quarto", c("publish", "gh-pages", "--no-prompt", "--no-browser"),
+        stdout = TRUE, stderr = TRUE
+      )
+    )
+    cat(publish_out, sep = "\n")
+    publish_status <- attr(publish_out, "status")
+    if (!is.null(publish_status) && publish_status != 0) {
+      stop("quarto publish gh-pages failed - see output above.")
+    }
   }
 
   message("\nDone.")
