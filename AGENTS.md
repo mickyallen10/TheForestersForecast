@@ -67,6 +67,57 @@ and `styles.css`.
 - Usage: `source("episodes/fetch_episodes.R")` then
   `fetch_and_merge_episodes()`.
 
+## Publishing (`episodes/update_and_publish.R`)
+
+The site deploys to **two** places that both need updating, and the live
+site is served from `gh-pages`, not `main`:
+- `main` — the source branch (`.qmd` files, `episodes.yml`,
+  `episodes/*.R`), plus a tracked-but-gitignored copy of the rendered
+  `_site/` and `.quarto/_freeze/` (pre-existing state; `.gitignore` lists
+  them but git keeps tracking already-tracked files regardless of ignore
+  rules — this is intentional to leave alone, not a bug to fix).
+- `gh-pages` — a separate branch containing *only* the rendered site,
+  deployed via GitHub Pages to the custom domain
+  (`www.theforestersforecast.com`, see `CNAME`). This is what
+  `quarto publish gh-pages` manages, and is the actual live site.
+
+**`episodes/update_and_publish.R`** wraps the whole cycle in one function,
+`update_and_publish()`, run manually whenever new episodes are available:
+1. `fetch_and_merge_episodes()` (see above).
+2. If new episodes were found, pauses (in interactive sessions) so you can
+   add `spotify_id`s via `add_spotify_id()` before publishing.
+3. `quarto render` (full site).
+4. Commits `episodes/episodes.yml` + `_site/` + `.quarto/_freeze/` to
+   `main` (staged with `git add -f`, since those paths are technically
+   gitignored-but-tracked — see git note below) and pushes to
+   `origin/main`. Skipped if nothing changed.
+5. Runs `quarto publish gh-pages --no-prompt --no-browser` to deploy the
+   live site. **Deliberately does not pass `--no-render`** even though the
+   site was just rendered in step 3 — `quarto publish`'s own render pass
+   is what knows the destination site URL, which is required to generate
+   `robots.txt`/`sitemap.xml`. Skipping that second render silently drops
+   both files from the live site (found and fixed this exact bug once
+   already).
+
+Options: `update_and_publish(push = FALSE)` (commit to `main` locally only,
+skip both the `main` push and the `gh-pages` publish),
+`update_and_publish(publish_gh_pages = FALSE)` (push `main` but leave the
+live site alone), `update_and_publish(commit_message = "...")` (override
+the auto-generated `main` commit message).
+
+**Git/Quarto quirks hit while building this:**
+- Recent git's `advice.addIgnoredFile` refuses to (re-)stage paths under an
+  ignored directory (`_site/`, `.quarto/_freeze/`) even when the specific
+  file is already tracked, unless `-f` is passed — surfaces as a confusing
+  exit-1 "paths are ignored" error even though the add actually succeeds
+  for tracked files.
+- `system2()` on Windows can mangle a multi-word string (e.g. a commit
+  message) passed as a single `args` element into separate argv tokens;
+  wrap such strings in `shQuote()` before passing to `system2()`.
+- `quarto publish gh-pages` is git-based (unlike Quarto Pub/Netlify/etc.)
+  and does **not** require `quarto publish accounts` setup — it just uses
+  whatever git credentials/remote config already work for `origin`.
+
 ## Home page "Latest Episodes" feature
 
 `index.qmd` now has a "Latest Episodes" section (below the existing intro
@@ -182,9 +233,13 @@ account, so:
 ## Status
 
 Home page embed feature is implemented and rendering cleanly.
-`episodes/fetch_episodes.R` exists and has been run successfully — it
-correctly merged a new episode ("A Band of Biometricians #2") and a
-previously-untracked intro video into `episodes/episodes.yml` without
-disturbing existing `spotify_id`s. Update this file as further work happens
-(e.g., if episode data schema changes, if the embed styling is adjusted, or
-if `classify_episode()` needs new title patterns for a future series).
+`episodes/fetch_episodes.R` and `episodes/update_and_publish.R` both exist
+and have been run successfully end-to-end, including a full fetch → render
+→ commit `main` → publish `gh-pages` cycle. `episodes.yml` currently
+includes a new episode ("A Band of Biometricians #2") and a
+previously-untracked intro video, merged without disturbing existing
+`spotify_id`s. Update this file as further work happens (e.g., if episode
+data schema changes, if the embed styling is adjusted, if
+`classify_episode()` needs new title patterns for a future series, or if
+the publishing setup changes, e.g. a different deploy target than
+`gh-pages`).
