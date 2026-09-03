@@ -6,8 +6,16 @@
 #   - "A Band of Biometricians"
 # `order` is the position within its series (used for sorting on the Episodes page).
 # `spotify_id` is the Spotify episode ID (from open.spotify.com/episode/<id>), when known.
-# To refresh this list from YouTube later, re-run the fetch script using the
+# To refresh this list from YouTube later, re-run episodes/fetch_episodes.R using the
 # YouTube Data API v3 (channel handle: @TheForestersForecast-wb3jl).
+
+- title: 'The Foresters Forescast: Introduction'
+  series: The Forester's Forecast
+  order: 0
+  date: '2023-05-04'
+  youtube_id: 675RsXb8gKY
+  spotify_id: ~
+  description: ''
 - title: 'Episode 1: Dr. John Paul McTague'
   series: The Forester's Forecast
   order: 1
@@ -132,7 +140,7 @@
     forest systems teams in the world and is one of the most influential people in
     the forest Biometrics community. In this episode, Greg shares his ‘origin story’
     and his forecast on the future of forest inventory and modeling.
-- title: 'Episode 13: Dr. Aaron Weiskittel'
+- title: 'Episode 13: Dr.  Aaron Weiskittel'
   series: The Forester's Forecast
   order: 13
   date: '2024-09-11'
@@ -170,7 +178,7 @@
     fellow collector of people and stories which he documented in his book “Celebrating
     some people and lessons, from a time in Forest Inventory” which can be accessed
     online at http://www.sitca.ca/documents/Kim_Iles_People_Book.pdf
-- title: 'Episode 16: Dr. Dean Coble'
+- title: 'Episode16: Dr. Dean Coble'
   series: The Forester's Forecast
   order: 16
   date: '2025-06-04'
@@ -245,7 +253,7 @@
   spotify_id: 1YqHi2O458s0BEAozzAG5c
   description: Joshua is a PhD student in the SUNY College of Environmental Science
     and Forestry and founder of The Achiever's Gathering, Nigeria (TAGNG).
-- title: 'A Band of Biometricians #1'
+- title: 'A Band of Biometricians #1: Small Area Estimation'
   series: A Band of Biometricians
   order: 1
   date: '2025-09-15'
@@ -256,3 +264,16 @@
     & yield. In this first episode, I am joined by Dr. John Paul McTague and Dr. Corey
     Green to discuss the 2025 joint NEMO and SOMENS conference and to dive deep into
     the topic of Small Area Estimation
+- title: 'A Band of Biometricians #2: The U.S. National Scale Volume and Biomass estimation
+    system'
+  series: A Band of Biometricians
+  order: 2
+  date: '2026-09-03'
+  youtube_id: RZO5XeOXZjw
+  spotify_id: 4RRBCvPmk4JrjXwMj9XIDQ
+  description: On this episode of A Band of Biometricians (a series from The Forester's
+    Forecast), Micky Allen sits down with four of the people behind the USDA Forest
+    Service's National-Scale Volume and Biomass (NSVB) system — Aaron Weiskittel (University
+    of Maine), John Coulston (formerly USFS Southern Research Station, now NCASI),
+    Jim Westfall (USFS Northern Research Station, lead author), and Phil Radtke (Virginia
+    Tech).
