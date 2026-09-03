@@ -36,10 +36,36 @@ and `styles.css`.
 - Important formatting note baked into the render script: raw HTML lines
   must stay flush-left (no leading spaces) and each link wrapped in its own
   `<div>`, otherwise Pandoc misreads indented lines as code blocks.
-- To refresh `episodes.yml` with new episodes, the intent (per a comment in
-  the file) is to re-run a fetch script against the YouTube Data API v3
-  (channel handle `@TheForestersForecast-wb3jl`) — no such fetch script
-  currently exists in the repo; entries have so far been added manually.
+- **`episodes/fetch_episodes.R`** is the fetch/refresh script (recovered from
+  ad hoc console history and rebuilt as a reusable, merge-safe function — see
+  "YouTube fetch script" section below). Source it and call
+  `fetch_and_merge_episodes()` to pull new videos from the channel
+  (`@TheForestersForecast-wb3jl`) and merge them into `episodes.yml`.
+
+## YouTube fetch script (`episodes/fetch_episodes.R`)
+
+- `fetch_and_merge_episodes()` — fetches every video from the channel's
+  uploads playlist (paginated) via the YouTube Data API v3, then **merges**
+  into `episodes/episodes.yml` by `youtube_id` (not title — YouTube titles
+  get lightly copyedited after publishing, e.g. spacing/typo fixes, which
+  would otherwise cause false "new episode" positives). Existing entries
+  keep their curated `series`, `order`, `spotify_id`, and `description`;
+  only `title`/`date` are refreshed from upstream. Brand-new videos are
+  classified into `series`/`order` via `classify_episode()` based on title
+  patterns (`"Episode N: ..."`, `"Grad Student Spotlight - Episode N: ..."`,
+  `"A Band of Biometricians #N: ..."`); anything unrecognized (e.g. the
+  channel's intro clip) defaults to `series: "The Forester's Forecast"`,
+  `order: 0`. Returns the titles of genuinely new episodes and prints a
+  reminder to add their `spotify_id`.
+- `add_spotify_id(title, spotify_id)` — Spotify IDs aren't available via the
+  YouTube API, so after a fetch, add each new episode's Spotify ID by hand
+  (exact title match) once it's published on Spotify.
+- **Setup required before use:** the API key is read from the
+  `YOUTUBE_API_KEY` environment variable (set in `.Renviron`, which is
+  gitignored and never committed) — never hardcode it in the script. See
+  "Secret scanning" section below for why this matters here specifically.
+- Usage: `source("episodes/fetch_episodes.R")` then
+  `fetch_and_merge_episodes()`.
 
 ## Home page "Latest Episodes" feature
 
@@ -80,6 +106,20 @@ removed by amending the (single) commit on `main` that introduced it and
 force-pushing; the key itself should have also been rotated in Google
 Cloud Console (revoke/regenerate is the real fix — history rewriting alone
 doesn't undo prior exposure).
+
+**Follow-up finding:** the same key was later found still sitting in
+plaintext in the *local, gitignored* `.Rhistory` (never committed after the
+above fix, but never scrubbed from disk either — the original ad hoc YouTube
+fetch commands, including `api_key <- "AIzaSy..."`, lived there). It's been
+redacted locally. This is the origin of `episodes/fetch_episodes.R` above —
+reconstructed from those console commands, but rewritten to read the key
+from `YOUTUBE_API_KEY` in `.Renviron` instead of hardcoding it, specifically
+to prevent a repeat. Rotating the actual key in Google Cloud Console (not
+just redacting the local copy) is still the responsible party's action item
+if not already done; recommended key setup: restrict to YouTube Data API v3
+only (API restriction), and use IP-address application restriction only if
+running from a machine with a stable public IP, otherwise leave application
+restriction as "None" and rely on the API restriction.
 
 To prevent recurrence, a pre-commit hook lives at **`.githooks/pre-commit`**
 (tracked in the repo) that:
@@ -123,9 +163,28 @@ shell/terminal process won't see the update until it's restarted -- this
 can make a freshly-installed CLI tool appear as "not found" even though
 the install succeeded and works fine in a new terminal/session.
 
+## Git identity and multi-account setup on this PC
+
+This machine also has a separate work project using a different GitHub
+account, so:
+- Git identity for this repo is set **locally** (not `--global`):
+  `user.name = "Micky Allen"`, `user.email = "micky10@vt.edu"`. Don't set
+  these globally on this machine.
+- The `origin` remote URL has the personal GitHub username embedded
+  (`https://mickyallen10@github.com/mickyallen10/TheForestersForecast.git`)
+  rather than a bare `https://github.com/...` URL. This was needed because
+  Git Credential Manager was authenticating pushes as the other (work)
+  GitHub account by default when the URL didn't disambiguate — embedding
+  the username gets a separate stored credential. If pushes ever start
+  failing with a 403 "Permission denied to <other-account>" again, this is
+  the first thing to check/re-apply.
+
 ## Status
 
-Home page embed feature is implemented and rendering cleanly. Update this
-file as further work happens (e.g., if a YouTube-API fetch script is
-added, if episode data schema changes, or if the embed styling is
-adjusted).
+Home page embed feature is implemented and rendering cleanly.
+`episodes/fetch_episodes.R` exists and has been run successfully — it
+correctly merged a new episode ("A Band of Biometricians #2") and a
+previously-untracked intro video into `episodes/episodes.yml` without
+disturbing existing `spotify_id`s. Update this file as further work happens
+(e.g., if episode data schema changes, if the embed styling is adjusted, or
+if `classify_episode()` needs new title patterns for a future series).
